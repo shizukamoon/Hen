@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnimList A-Z - Mansekai Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Daftar judul anime A-Z dari data/data.js, dikelompokkan per huruf. Arahkan kursor ke judul untuk melihat poster. */
+  :root {
+    --white: #ffffff; --paper: #fbf7ee; --cream: #f3e7cf; --sand: #e4d2ae;
+    --ink: #2e261c; --muted: #75664f; --caramel: #8f5e38; --line: #e9dfca;
+    --font: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--white); scroll-behavior: smooth; }
+  body { margin: 0; background: var(--white); color: var(--ink); font: 14px/1.5 var(--font); }
+  img { max-width: 100%; display: block; }
+  [hidden] { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--caramel); outline-offset: 2px; }
+  .wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: 16px; }
+
+  .nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--white); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; min-height: 68px; padding-block: 10px; }
+  .links { display: flex; gap: 6px; font-weight: 600; font-size: 13px; }
+  .links a { padding: 8px 14px; border-radius: 999px; }
+  .links a:hover { background: var(--paper); }
+  .links a.on { background: var(--cream); }
+  .logo { display: grid; justify-items: center; line-height: 1; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; font-size: 15px; }
+  .logo span { font-weight: 500; font-size: 9px; letter-spacing: 0.5em; margin-top: 5px; color: var(--caramel); }
+  .right { display: flex; justify-content: flex-end; }
+  .back { display: inline-flex; align-items: center; height: 38px; padding-inline: 16px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 700; }
+  .back:hover { background: var(--caramel); }
+  @media (max-width: 860px) {
+    .nav .wrap { grid-template-columns: auto 1fr; row-gap: 8px; }
+    .logo { justify-items: start; order: 1; }
+    .right { order: 2; }
+    .links { order: 3; grid-column: 1 / -1; }
+  }
+
+  .pagehead { background: var(--cream); border-radius: 28px; padding: 40px 44px; margin-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: 24px; align-items: end; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--caramel); margin-bottom: 14px; }
+  .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--caramel); }
+  .pagehead h1 { margin: 0 0 8px; font-size: clamp(28px, 4.2vw, 44px); line-height: 1.12; font-weight: 800; letter-spacing: -0.015em; }
+  .pagehead p { margin: 0; color: var(--muted); font-weight: 500; }
+  .search { display: flex; align-items: center; gap: 8px; background: var(--white); border-radius: 999px; padding: 0 16px; height: 46px; min-width: 0; }
+  .search svg { width: 16px; height: 16px; flex: none; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; }
+  .search input { border: 0; background: transparent; font: inherit; font-size: 14px; color: var(--ink); width: 100%; min-width: 0; outline: none; }
+  .search input::placeholder { color: var(--muted); }
+  @media (max-width: 760px) { .pagehead { grid-template-columns: minmax(0, 1fr); padding: 28px 22px; border-radius: 22px; } }
+
+  /* Lompat huruf */
+  .jump { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 68px); z-index: 4; background: var(--white); padding-block: 14px; display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--line); }
+  @media (max-width: 860px) { .jump { position: static; } }
+  .jump a, .jump span { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; font-size: 12px; font-weight: 700; }
+  .jump a { background: var(--paper); border: 1px solid var(--line); }
+  .jump a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .jump span { color: #bfb39b; }
+
+  .letter { padding-block: 28px 0; scroll-margin-top: 150px; }
+  .letter h2 { margin: 0 0 12px; display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 800; color: var(--caramel); }
+  .letter h2::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .al-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 8px 24px; }
+  .al-item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 14px; border-radius: 14px; border: 1px solid transparent; }
+  .al-item:hover, .al-item:focus-visible { background: var(--paper); border-color: var(--line); }
+  .al-thumb { display: none; width: 40px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 6px; background: var(--cream); }
+  .al-text { min-width: 0; display: grid; gap: 1px; grid-column: 1 / -1; }
+  .al-title { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+  .al-meta { font-size: 11px; color: var(--muted); font-weight: 500; }
+  @media (hover: none) {
+    .al-thumb { display: block; }
+    .al-text { grid-column: auto; }
+  }
+  .empty { padding: 40px 0; color: var(--muted); font-weight: 600; }
+
+  /* Preview poster saat kursor di atas judul */
+  .pv { position: fixed; z-index: 30; left: 0; top: 0; width: 210px; background: var(--white); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 18px 40px rgba(80, 60, 30, 0.28); pointer-events: none; }
+  .pv .img { position: relative; aspect-ratio: 2 / 3; background: var(--cream); }
+  .pv img { width: 100%; height: 100%; object-fit: cover; }
+  .pv .ribbon { position: absolute; top: 15px; left: -34px; width: 118px; transform: rotate(-45deg); background: var(--caramel); color: var(--white); font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-align: center; padding: 3px 0; }
+  .pv .ep { position: absolute; top: 8px; right: 8px; background: var(--ink); color: var(--paper); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; }
+  .pv .body { padding: 10px 12px 12px; background: var(--paper); display: grid; gap: 6px; }
+  .pv b { font-size: 12px; line-height: 1.3; overflow-wrap: anywhere; }
+  .pv .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pv .tags span { font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); color: var(--muted); }
+  .pv .tags span.cat { background: var(--ink); border-color: var(--ink); color: var(--paper); font-weight: 700; }
+
+  footer { background: var(--cream); margin-top: 56px; padding-block: 32px 24px; }
+  .foot { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+  .foot b { font-size: 18px; font-weight: 800; }
+  .foot nav { display: flex; flex-wrap: wrap; gap: 8px 22px; font-weight: 600; font-size: 12px; color: var(--muted); }
+  .foot nav a:hover { color: var(--ink); text-decoration: underline; }
+  .copy { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--sand); color: var(--muted); font-size: 12px; }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <nav class="links" aria-label="Menu utama">
+      <a href="index.html">Movies</a>
+      <div class="dd-wrap">
+        <a class="dd-btn" href="categories.html" aria-haspopup="true" aria-expanded="false" aria-controls="catMenu">Categories <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></a>
+        <div class="dd" id="catMenu" hidden>
+          <div class="dd-title">Tags terbanyak</div>
+          <div class="dd-grid" id="catGrid"></div>
+          <a class="dd-all" href="categories.html"><span>See all categories</span><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <a class="on" href="animlist.html">AnimList</a>
+    </nav>
+    <a class="logo" href="index.html">Mansekai<span>Animation</span></a>
+    <div class="right"><a class="back" href="index.html">← Daftar Anime</a></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="pagehead">
+    <div>
+      <div class="eyebrow">AnimList</div>
+      <h1>Daftar Anime A-Z</h1>
+      <p id="summary"></p>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Cari judul anime" autocomplete="off" aria-label="Cari judul anime">
+    </label>
+  </section>
+
+  <nav class="jump" id="jump" aria-label="Lompat ke huruf"></nav>
+
+  <div id="letters"></div>
+  <p class="empty" id="empty" hidden>Tidak ada judul yang cocok.</p>
+</main>
+
+<div class="pv" id="pv" hidden aria-hidden="true">
+  <div class="img"><img id="pvImg" src="" alt=""><span class="ribbon" id="pvRibbon"></span><span class="ep" id="pvEp"></span></div>
+  <div class="body"><b id="pvTitle"></b><div class="tags" id="pvTags"></div></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <b>Mansekai Animation</b>
+      <nav aria-label="Tautan footer">
+        <a href="index.html">Movies Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="animlist.html">AnimList (A-Z)</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 Mansekai Animation. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script src="data/data.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  var LIST = (window.ANIME_LIST || []).slice().sort(function (a, b) {
+    return a.title.localeCompare(b.title, "en", { sensitivity: "base" });
+  });
+  function $(s) { return document.querySelector(s); }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+  // kelompokkan per huruf pertama
+  var groups = {}, order = [];
+  LIST.forEach(function (a) {
+    var ch = a.title.charAt(0).toUpperCase();
+    if (!/[A-Z]/.test(ch)) ch = "#";
+    if (!groups[ch]) { groups[ch] = []; order.push(ch); }
+    groups[ch].push(a);
+  });
+
+  $("#summary").textContent = LIST.length + " judul, diurutkan dari A sampai Z.";
+
+  var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  if (groups["#"]) letters.push("#");
+  $("#jump").innerHTML = letters.map(function (l) {
+    return groups[l] ? '<a href="#letter-' + (l === "#" ? "num" : l) + '">' + l + "</a>" : "<span>" + l + "</span>";
+  }).join("");
+
+  $("#letters").innerHTML = letters.filter(function (l) { return groups[l]; }).map(function (l) {
+    return '<section class="letter" id="letter-' + (l === "#" ? "num" : l) + '"><h2>' + l + '</h2><div class="al-list">' +
+      groups[l].map(function (a) {
+        return '<a class="al-item" href="detail.html#' + esc(a.id) + '" data-id="' + esc(a.id) + '" data-t="' + esc((a.title + " " + a.category + " " + a.tags.join(" ")).toLowerCase()) + '">' +
+          '<img class="al-thumb" src="' + esc(a.image) + '" alt="" loading="lazy">' +
+          '<span class="al-text"><span class="al-title">' + esc(a.title) + '</span><span class="al-meta">' + esc(a.category) + " · " + esc(a.episodeLabel) + "</span></span></a>";
+      }).join("") + "</div></section>";
+  }).join("");
+
+  // simpan id yang diklik untuk detail.html
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href^="detail.html#"]');
+    if (!a) return;
+    try { sessionStorage.setItem("anime-id", a.getAttribute("href").split("#")[1]); } catch (err) {}
+  });
+
+  // cari judul
+  $("#q").addEventListener("input", function () {
+    var term = this.value.trim().toLowerCase(), any = 0;
+    Array.prototype.forEach.call(document.querySelectorAll(".letter"), function (sec) {
+      var shown = 0;
+      Array.prototype.forEach.call(sec.querySelectorAll(".al-item"), function (it) {
+        var ok = !term || it.getAttribute("data-t").indexOf(term) !== -1;
+        it.hidden = !ok;
+        if (ok) shown++;
+      });
+      sec.hidden = shown === 0;
+      any += shown;
+    });
+    $("#empty").hidden = any !== 0;
+  });
+
+  // preview poster
+  var byId = {};
+  LIST.forEach(function (a) { byId[a.id] = a; });
+  var pv = $("#pv"), current = null;
+  var canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
+
+  function fill(a) {
+    $("#pvImg").src = a.image;
+    $("#pvImg").alt = "Poster " + a.title;
+    $("#pvRibbon").textContent = a.ribbon;
+    $("#pvEp").textContent = a.episodeLabel;
+    $("#pvTitle").textContent = a.title;
+    $("#pvTags").innerHTML = '<span class="cat">' + esc(a.category) + "</span>" +
+      a.tags.slice(0, 3).map(function (t) { return "<span>#" + esc(t) + "</span>"; }).join("");
+  }
+  function place(x, y) {
+    var w = pv.offsetWidth, h = pv.offsetHeight, m = 12;
+    var left = x + 24;
+    if (left + w > window.innerWidth - m) left = x - 24 - w;
+    var top = y - h / 2;
+    top = Math.max(m, Math.min(top, window.innerHeight - h - m));
+    pv.style.left = Math.max(m, left) + "px";
+    pv.style.top = top + "px";
+  }
+  function hide() { pv.hidden = true; current = null; }
+  function show(item, x, y) {
+    var id = item.getAttribute("data-id");
+    if (id !== current) { current = id; fill(byId[id]); }
+    pv.hidden = false;
+    place(x, y);
+  }
+
+  var list = $("#letters");
+  if (canHover) {
+    list.addEventListener("mousemove", function (e) {
+      var item = e.target.closest(".al-item");
+      if (item) show(item, e.clientX, e.clientY); else hide();
+    });
+    list.addEventListener("mouseleave", hide);
+    window.addEventListener("scroll", hide, { passive: true });
+  }
+  // pengguna keyboard: preview muncul di samping judul yang difokus
+  list.addEventListener("focusin", function (e) {
+    var item = e.target.closest(".al-item");
+    if (!item) return;
+    var r = item.getBoundingClientRect();
+    show(item, r.left + Math.min(r.width, 260), r.top + r.height / 2);
+  });
+  list.addEventListener("focusout", hide);
+})();
+</script>
+</body>
+</html>

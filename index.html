@@ -1,0 +1,520 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mansekai Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Layout: slim announcement, three-part centered-logo nav, inset split hero (text + stats | fanned picks), poster grid, footer with brand block + contact card. Single warm light look. */
+  :root {
+    --white: #ffffff;
+    --paper: #fbf7ee;
+    --cream: #f3e7cf;
+    --sand: #e4d2ae;
+    --ink: #2e261c;
+    --muted: #75664f;
+    --caramel: #8f5e38;
+    --line: #e9dfca;
+    --font: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--caramel); outline-offset: 2px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  .wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: 16px; }
+
+  /* Announcement */
+  .announce {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 6px 16px;
+  }
+
+  /* Nav: links left, logo centered, search and tools right */
+  .nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    min-height: 68px;
+    padding-block: 10px;
+  }
+  .links { display: flex; gap: 6px; font-weight: 600; font-size: 13px; }
+  .links a { padding: 8px 14px; border-radius: 999px; }
+  .links a:hover { background: var(--paper); }
+  .links a.on { background: var(--cream); }
+  .logo {
+    display: grid; justify-items: center; line-height: 1;
+    font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: 15px;
+  }
+  .logo span { font-weight: 500; font-size: 9px; letter-spacing: 0.5em; margin-top: 5px; color: var(--caramel); }
+  .right { display: flex; align-items: center; justify-content: flex-end; gap: 6px; min-width: 0; }
+  .search {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
+    padding: 0 14px; height: 38px; width: 100%; max-width: 230px; min-width: 0;
+  }
+  .search svg { width: 16px; height: 16px; flex: none; stroke: var(--muted); fill: none; stroke-width: 2; stroke-linecap: round; }
+  .search input { border: 0; background: transparent; font: inherit; font-size: 13px; color: var(--ink); width: 100%; min-width: 0; outline: none; }
+  .search input::placeholder { color: var(--muted); }
+  .search:focus-within { border-color: var(--caramel); background: var(--white); }
+  .icon-btn { width: 38px; height: 38px; display: grid; place-items: center; background: none; border: 0; border-radius: 50%; flex: none; }
+  .icon-btn:hover { background: var(--paper); }
+  .icon-btn svg { width: 18px; height: 18px; stroke: var(--ink); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 860px) {
+    .nav .wrap { grid-template-columns: auto 1fr; row-gap: 8px; }
+    .logo { justify-items: start; order: 1; }
+    .right { order: 2; }
+    .links { order: 3; grid-column: 1 / -1; overflow-x: auto; padding-bottom: 2px; }
+    .search { max-width: none; }
+  }
+
+  /* Hero: inset cream panel, two columns */
+  .hero { padding-block: 24px 4px; }
+  .hero-panel {
+    background: var(--cream);
+    border-radius: 28px;
+    padding: 44px 44px 44px 48px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 32px;
+    align-items: center;
+    overflow: hidden;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--caramel); margin-bottom: 16px;
+  }
+  .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--caramel); }
+  .hero h1 {
+    margin: 0 0 28px;
+    font-size: clamp(28px, 4.2vw, 46px);
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .stats {
+    display: grid; grid-template-columns: repeat(3, minmax(0, auto));
+    width: fit-content; max-width: 100%;
+    background: var(--white); border-radius: 18px; overflow: hidden;
+  }
+  .stat { padding: 14px 22px; display: grid; gap: 2px; border-right: 1px solid var(--line); min-width: 0; }
+  .stat:last-child { border-right: 0; }
+  a.stat:hover { background: var(--paper); }
+  .stat b { font-size: 26px; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 11px; font-weight: 600; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+  .stat span small { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 1px 5px; border-radius: 4px; background: var(--ink); color: var(--paper); }
+
+  .fan { position: relative; width: 100%; max-width: 440px; aspect-ratio: 1.12 / 1; justify-self: center; }
+  .mini {
+    position: absolute; width: 46%; aspect-ratio: 2 / 3;
+    border-radius: 14px; overflow: hidden;
+    background: linear-gradient(160deg, var(--a), var(--b));
+    box-shadow: 0 12px 24px rgba(80, 60, 30, 0.2);
+    border: 3px solid var(--white);
+    display: flex; align-items: flex-end; padding: 10px;
+  }
+  .mini::before { content: ""; position: absolute; width: 90%; aspect-ratio: 1; right: -30%; top: 12%; border-radius: 50%; background: rgba(255, 255, 255, 0.35); }
+  .mini b { position: relative; font-size: clamp(12px, 1.8vw, 18px); font-weight: 800; line-height: 1.05; color: var(--ink); overflow-wrap: anywhere; }
+  .mini i { position: absolute; top: 8px; right: 8px; font-style: normal; font-size: 9px; font-weight: 700; background: var(--ink); color: var(--paper); padding: 2px 7px; border-radius: 6px; }
+  .mini.m1 { left: 0; top: 12%; transform: rotate(-8deg); z-index: 1; }
+  .mini.m2 { left: 27%; top: 0; z-index: 3; }
+  .mini.m3 { left: 54%; top: 12%; transform: rotate(8deg); z-index: 2; }
+
+  @media (max-width: 860px) {
+    .hero-panel { grid-template-columns: minmax(0, 1fr); padding: 28px 20px 32px; border-radius: 22px; }
+    .stat { padding: 12px 16px; }
+    .stat b { font-size: 22px; }
+  }
+
+  /* Grid */
+  .listing { padding-block: 36px 28px; background: var(--white); }
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px 16px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 12px; } }
+  .empty { text-align: center; color: var(--muted); padding: 40px 0 0; font-weight: 600; }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 3px 10px rgba(80, 60, 30, 0.08);
+    transition: transform .2s ease, box-shadow .2s ease;
+    min-width: 0;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(80, 60, 30, 0.14); }
+  .poster {
+    position: relative; overflow: hidden;
+    aspect-ratio: 2 / 3; max-width: 100%;
+    background: linear-gradient(160deg, var(--a), var(--b));
+    display: flex; align-items: flex-end;
+    padding: 12px 12px 44px;
+  }
+  .poster::before { content: ""; position: absolute; width: 90%; aspect-ratio: 1; right: -30%; top: 14%; border-radius: 50%; background: rgba(255, 255, 255, 0.35); }
+  .poster::after { content: ""; position: absolute; width: 60%; aspect-ratio: 1; left: -22%; top: 38%; border-radius: 50%; background: rgba(255, 255, 255, 0.22); }
+  .art {
+    position: relative; z-index: 1;
+    font-weight: 800; font-size: clamp(17px, 2.4vw, 26px);
+    line-height: 1.05; letter-spacing: -0.01em;
+    color: var(--ink); text-wrap: balance; overflow-wrap: anywhere;
+  }
+  .season { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--caramel); margin-bottom: 6px; }
+  .ribbon {
+    position: absolute; z-index: 2; top: 15px; left: -34px; width: 118px;
+    transform: rotate(-45deg);
+    background: var(--caramel); color: var(--white);
+    font-size: 8px; font-weight: 700; letter-spacing: 0.1em;
+    text-align: center; padding: 3px 0;
+  }
+  .ep {
+    position: absolute; z-index: 2; top: 8px; right: 8px;
+    background: var(--ink); color: var(--paper);
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .fav {
+    position: absolute; z-index: 2; left: 8px; bottom: 8px;
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--white); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px;
+    font-size: 10px; font-weight: 700; padding: 3px 8px;
+  }
+  .fav .star { color: var(--sand); font-size: 11px; }
+  .fav[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .fav[aria-pressed="true"] .star { color: #f1c97a; }
+  .title {
+    padding: 8px 10px; text-align: center;
+    font-size: 11px; font-weight: 600; line-height: 1.3;
+    background: var(--paper); border-top: 1px solid var(--line);
+    min-height: 44px; display: grid; place-items: center;
+    overflow-wrap: anywhere;
+  }
+
+  /* Pagination */
+  .pager { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding-block: 36px 8px; }
+  .pager button {
+    min-width: 36px; height: 36px; padding-inline: 14px;
+    border-radius: 999px; border: 0;
+    background: var(--cream); color: var(--muted);
+    font-weight: 700; font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  .pager button:hover:not(:disabled) { background: var(--sand); color: var(--ink); }
+  .pager button[aria-current="page"], .pager button.next { background: var(--ink); color: var(--paper); }
+  .pager button:disabled { opacity: .6; cursor: default; }
+
+  /* Footer: brand block + contact card, then one slim link row */
+  footer { background: var(--cream); margin-top: 40px; padding-block: 56px 24px; }
+  .foot-top { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 40px; align-items: stretch; }
+  .brand-name {
+    margin: 0 0 14px;
+    font-size: clamp(30px, 5.2vw, 56px);
+    font-weight: 800; line-height: 1; letter-spacing: -0.02em;
+  }
+  .brand-name span { display: block; color: var(--caramel); }
+  .brand p { margin: 0 0 22px; color: var(--muted); font-size: 14px; max-width: 44ch; }
+  .social { display: flex; gap: 8px; flex-wrap: wrap; }
+  .social a {
+    height: 36px; padding-inline: 14px; border-radius: 999px;
+    display: inline-flex; align-items: center;
+    background: var(--white); font-size: 12px; font-weight: 700;
+  }
+  .social a:hover { background: var(--ink); color: var(--paper); }
+  .contact { background: var(--white); border-radius: 22px; padding: 28px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+  .contact h3 { margin: 0; font-size: 18px; font-weight: 700; }
+  .contact p { margin: 0; color: var(--muted); font-size: 13px; }
+  .field { display: flex; align-items: center; gap: 10px; background: var(--paper); border-radius: 12px; padding: 8px 8px 8px 14px; min-width: 0; }
+  .field span { flex: 1; min-width: 0; font-size: 13px; font-weight: 600; overflow-wrap: anywhere; user-select: all; }
+  .copy { flex: none; border: 0; background: var(--ink); color: var(--paper); border-radius: 8px; font-size: 11px; font-weight: 700; padding: 7px 12px; }
+  .site-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--ink); color: var(--paper); border-radius: 12px; padding: 12px 16px; font-weight: 700; font-size: 13px; }
+  .site-link:hover { background: var(--caramel); }
+  .foot-bottom {
+    margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--sand);
+    display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; justify-content: space-between;
+    color: var(--muted); font-size: 12px;
+  }
+  .foot-bottom nav { display: flex; flex-wrap: wrap; gap: 8px 22px; font-weight: 600; }
+  .foot-bottom nav a:hover { color: var(--ink); text-decoration: underline; }
+  @media (max-width: 760px) {
+    .foot-top { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .contact { padding: 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+
+  /* Gambar poster dari data.js */
+  .poster { background: var(--cream); padding: 0; }
+  .poster::before, .poster::after { display: none; }
+  .poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cover { position: absolute; inset: 0; z-index: 1; }
+  .ribbon, .ep { pointer-events: none; }
+  .fav { z-index: 3; }
+  a.title:hover { background: var(--cream); }
+  .mini { display: block; background: var(--cream); padding: 0; }
+  .mini::before { display: none; }
+  .mini img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mini i { z-index: 1; }
+
+  /* Kategori dan tags di kartu */
+  .meta { background: var(--paper); padding: 0 10px 10px; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+  .meta .cat { background: var(--ink); color: var(--paper); font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .meta .tag { background: var(--white); border: 1px solid var(--line); color: var(--muted); font-size: 10px; font-weight: 600; padding: 1px 8px; border-radius: 999px; }
+
+  /* Hasil pencarian dan pagination 12 kartu per halaman */
+  .listing { scroll-margin-top: 76px; }
+  .res-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin-bottom: 20px; scroll-margin-top: 84px; }
+  .res-head p { margin: 0; font-weight: 600; font-size: 16px; min-width: 0; overflow-wrap: anywhere; }
+  .res-head b { font-weight: 800; }
+  .res-head small { color: var(--muted); font-weight: 600; font-size: 12px; margin-left: 6px; }
+  .clear { height: 34px; padding-inline: 16px; border-radius: 999px; border: 2px solid var(--ink); background: transparent; font-weight: 700; font-size: 12px; }
+  .clear:hover { background: var(--ink); color: var(--paper); }
+  .pager .gap { display: grid; place-items: center; min-width: 20px; color: var(--muted); font-weight: 700; }
+</style>
+
+<div class="announce">Hanya website ini yang dikelola oleh Mansekai Project Animation</div>
+
+<header class="nav">
+  <div class="wrap">
+    <nav class="links" aria-label="Menu utama">
+      <a class="on" href="index.html">Movies</a>
+      <div class="dd-wrap">
+        <a class="dd-btn" href="categories.html" aria-haspopup="true" aria-expanded="false" aria-controls="catMenu">Categories <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4"/></svg></a>
+        <div class="dd" id="catMenu" hidden>
+          <div class="dd-title">Tags terbanyak</div>
+          <div class="dd-grid" id="catGrid"></div>
+          <a class="dd-all" href="categories.html"><span>See all categories</span><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <a href="animlist.html">AnimList</a>
+    </nav>
+    <a class="logo" href="index.html">Mansekai<span>Animation</span></a>
+    <div class="right">
+      <label class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Cari U" autocomplete="off" aria-label="Cari anime">
+      </label>
+      <button class="icon-btn" aria-label="Daftar tontonan"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19.5" r="1.2"/><circle cx="17" cy="19.5" r="1.2"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-panel">
+      <div>
+        <div class="eyebrow">Pilihan Mansekai</div>
+        <h1>“Today’s Animation Recommendations for You”</h1>
+        <div class="stats">
+          <div class="stat"><b>3</b><span>Movies Tersedia</span></div>
+          <a class="stat" href="#"><b>2</b><span>Uncensored+ <small>Hentai</small></span></a>
+          <a class="stat" href="#"><b>1</b><span>Censored+ <small>Hentai</small></span></a>
+        </div>
+      </div>
+      <div class="fan">
+        <a class="mini m1" href="detail.html#onaji-zemi-no-someya-san-ga-sexy-joyuu-datta-hanashi" aria-label="Onaji Zemi no Someya-san ga Sexy Joyuu Datta Hanashi"><img src="img/Onaji-Zemi-no-Someya-san-ga-Sexy-Joyuu-Datta-Hanashi.webp" alt=""><i></i></a>
+        <a class="mini m2" href="detail.html#overflow" aria-label="Overflow"><img src="img/Overflow.webp" alt=""><i></i></a>
+        <a class="mini m3" href="detail.html#aibeya-the-animation" aria-label="Aibeya The Animation"><img src="img/Aibeya The Animation.webp" alt=""><i></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="listing">
+  <div class="wrap">
+    <div class="res-head" id="resHead" hidden>
+      <p id="resText"></p>
+      <button class="clear" id="clearQ" type="button">Hapus pencarian</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden></p>
+    <nav class="pager" aria-label="Halaman" id="pager"></nav>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="brand">
+        <h2 class="brand-name">Mansekai <span>Animation</span></h2>
+        <p>Website rekomendasi animasi pilihan terbaik yang dikelola secara eksklusif oleh Mansekai Project Animation.</p>
+        <div class="social">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">TikTok</a>
+          <a href="#">WhatsApp</a>
+          <a href="#">Telegram</a>
+        </div>
+      </div>
+      <div class="contact">
+        <h3>Hubungi Kami</h3>
+        <p>Punya pertanyaan atau masukan? Silakan hubungi kami melalui email atau kunjungi situs resmi kami.</p>
+        <div class="field">
+          <span id="mail">firmanhidayat200138@gmail.com</span>
+          <button class="copy" id="copy" type="button">Salin</button>
+        </div>
+        <a class="site-link" href="https://firman38.ct.ws" target="_blank" rel="noopener"><span>firman38.ct.ws</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Mansekai Animation. All Rights Reserved.</span>
+      <nav aria-label="Tautan footer">
+        <a href="index.html">Movies Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="animlist.html">AnimList (A-Z)</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="data/data.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  var PER = 12;
+  var items = window.ANIME_LIST || [];
+  var grid = document.getElementById("grid");
+  var pager = document.getElementById("pager");
+  var listing = document.querySelector(".listing");
+  var resHead = document.getElementById("resHead");
+  var resText = document.getElementById("resText");
+  var clearBtn = document.getElementById("clearQ");
+  var empty = document.getElementById("empty");
+  var q = document.getElementById("q");
+  var page = 1, pages = 1, query = "", favs = {};
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function matches(it, term) { return (it.title + " " + it.category + " " + it.tags.join(" ")).toLowerCase().indexOf(term) !== -1; }
+
+  function pageNumbers(total, cur) {
+    var out = [], i;
+    if (total <= 7) { for (i = 1; i <= total; i++) out.push(i); return out; }
+    out.push(1);
+    if (cur > 3) out.push("…");
+    for (i = Math.max(2, cur - 1); i <= Math.min(total - 1, cur + 1); i++) out.push(i);
+    if (cur < total - 2) out.push("…");
+    out.push(total);
+    return out;
+  }
+
+  function card(it) {
+    var href = "detail.html#" + it.id;
+    return '<article class="card" data-id="' + esc(it.id) + '">' +
+      '<div class="poster">' +
+        '<a class="cover" href="' + href + '" aria-label="Buka detail ' + esc(it.title) + '"></a>' +
+        '<img src="' + esc(it.image) + '" alt="Poster ' + esc(it.title) + '" loading="lazy">' +
+        '<span class="ribbon">' + esc(it.ribbon) + '</span>' +
+        '<span class="ep">' + esc(it.episodeLabel) + '</span>' +
+        '<button class="fav" type="button" aria-pressed="' + (favs[it.id] ? "true" : "false") + '"><span class="star">★</span> Favorit Saya</button>' +
+      '</div>' +
+      '<a class="title" href="' + href + '">' + esc(it.title) + '</a>' +
+      '<div class="meta"><span class="cat">' + esc(it.category) + '</span>' +
+        it.tags.slice(0, 2).map(function (t) { return '<span class="tag">#' + esc(t) + '</span>'; }).join("") +
+      '</div></article>';
+  }
+
+  function render() {
+    var term = query.trim().toLowerCase();
+    var list = term ? items.filter(function (it) { return matches(it, term); }) : items;
+    pages = Math.max(1, Math.ceil(list.length / PER));
+    if (page > pages) page = pages;
+    grid.innerHTML = list.slice((page - 1) * PER, page * PER).map(card).join("");
+
+    resHead.hidden = !term;
+    if (term) {
+      resText.innerHTML = 'Menampilkan hasil pencarian dari “<b id="rq"></b>” <small id="rn"></small>';
+      document.getElementById("rq").textContent = query.trim();
+      document.getElementById("rn").textContent = list.length + " anime";
+    }
+    empty.hidden = list.length !== 0;
+    if (list.length === 0) empty.textContent = "Tidak ada anime yang cocok dengan “" + query.trim() + "”.";
+
+    if (pages <= 1) { pager.innerHTML = ""; return; }
+    var html = '<button type="button" data-p="prev"' + (page === 1 ? " disabled" : "") + ">Prev</button>";
+    pageNumbers(pages, page).forEach(function (n) {
+      html += n === "…" ? '<span class="gap">…</span>' : '<button type="button" data-p="' + n + '"' + (n === page ? ' aria-current="page"' : "") + ">" + n + "</button>";
+    });
+    html += '<button type="button" class="next" data-p="next"' + (page === pages ? " disabled" : "") + ">Next</button>";
+    pager.innerHTML = html;
+  }
+
+  // pencarian di navbar: tulisan hasil muncul dan kartu langsung terlihat
+  q.addEventListener("input", function () {
+    query = q.value;
+    page = 1;
+    render();
+    if (query.trim()) {
+      var r = resHead.getBoundingClientRect();
+      if (r.top < 70 || r.top > window.innerHeight * 0.5) resHead.scrollIntoView();
+    }
+  });
+  clearBtn.addEventListener("click", function () { q.value = ""; query = ""; page = 1; render(); });
+
+  pager.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b || b.disabled) return;
+    var p = b.getAttribute("data-p");
+    page = p === "prev" ? Math.max(1, page - 1) : p === "next" ? Math.min(pages, page + 1) : Number(p);
+    render();
+    (query.trim() ? resHead : listing).scrollIntoView();
+  });
+
+  grid.addEventListener("click", function (e) {
+    var btn = e.target.closest(".fav");
+    if (!btn) return;
+    var id = btn.closest(".card").getAttribute("data-id");
+    favs[id] = !favs[id];
+    btn.setAttribute("aria-pressed", favs[id] ? "true" : "false");
+  });
+
+  // simpan id anime yang diklik supaya detail.html tahu anime mana yang dibuka
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href^="detail.html#"]');
+    if (!a) return;
+    try { sessionStorage.setItem("anime-id", a.getAttribute("href").split("#")[1]); } catch (err) {}
+  });
+
+  // salin email
+  var copyBtn = document.getElementById("copy");
+  var mail = document.getElementById("mail");
+  if (copyBtn && mail) {
+    copyBtn.addEventListener("click", function () {
+      function done() { copyBtn.textContent = "Tersalin"; setTimeout(function () { copyBtn.textContent = "Salin"; }, 1800); }
+      function fallback() {
+        var r = document.createRange(); r.selectNodeContents(mail);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        copyBtn.textContent = "Pilih & salin"; setTimeout(function () { copyBtn.textContent = "Salin"; }, 2200);
+      }
+      try { navigator.clipboard.writeText(mail.textContent).then(done, fallback); } catch (err) { fallback(); }
+    });
+  }
+
+  render();
+})();
+</script>
+
+</body></html>
